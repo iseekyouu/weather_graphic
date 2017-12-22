@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css?12" />
+    <script type="application/javascript" src = 'js/db.js?1'></script>
+</head>
+<body>
+    <div class = 'container'>
+        <div class = 'left-side'>
+            <div class = 'left-side__temperature-button'>
+                <button type = 'button' id = 'temperature-button'>Temperature</button>
+            </div>
+            <div class = 'left-side__precipitation-button'>
+                <button type = 'button' id = 'precipitation-button'>Precipitation</button>
+            </div>
+
+            <div class = 'left-side__precipitation-button'>
+                <button type = 'button' id = 'clear-button' onclick = 'clearObjectStore()'>Clear</button>
+
+            </div>
+        </div>
+        <div class = 'right-side'>
+            <div class = 'right-side__period'>
+                <div class = 'right-side__year-from'>
+                    <label for = 'year-from'>Год:</label>
+                    <input  type = 'number' id = 'year-from' >
+                </div>
+                <div class = 'right-side__year-to'>
+                    <input   type = 'number' id = 'year-to' >
+                </div>
+
+                <div>
+                    <div class = 'right-side__date-start'>
+                        <select id = 'date-start'></select>
+                    </div>
+                    <div class = 'right-side__date-end'>
+                        <select id = 'date-end'></select>
+                    </div>
+                </div>
+            </div>
+            <div class = 'right-side__canvas' >
+                <canvas id = 'graphic' width = '430' height = '500'></canvas>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+
+<script type="application/javascript" src = 'js/js.js?14'></script>
+
+
+
+</html>

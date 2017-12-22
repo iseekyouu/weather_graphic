@@ -1,0 +1,104 @@
+body {
+    width: 100%;
+}
+.container {
+    width: 600px;
+    margin: auto;
+}
+
+.left-side {
+    width: 160px;
+    float: left;
+}
+
+.left-side__temperature-button {
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.active{
+    background-color: lightblue;
+}
+
+.left-side__temperature-button button{
+    width: 90%;
+
+}
+
+.left-side__precipitation-button {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.left-side__precipitation-button button{
+    width: 90%;
+}
+
+.left-side__size input{
+    width: 90%;
+    margin-top: 5px;
+}
+
+
+.right-side {
+    width: 440px;
+    float:left;
+}
+
+.right-side__period{
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
+
+.right-side__date-start{
+    display: inline-block;
+    width: 49%;
+}
+.right-side__date-start select{
+    width: 100%
+}
+
+.right-side__date-end{
+    display: inline-block;
+    width: 49%;
+}
+.right-side__date-end select{
+    width: 100%
+}
+
+.right-side__year-from{
+    display: inline-block;
+    width: 49%;
+}
+.right-side__year-from input{
+    width: 80%;
+}
+
+.right-side__year-to{
+    display: inline-block;
+    width: 49%;
+}
+.right-side__year-to input{
+    width: 100%;
+}
+
+.dropdown{
+    height: 300px;
+    width: 200px;
+    overflow: auto;
+}
+
+.right-side__canvas{
+    margin-top: 10px;
+    height: 505px;
+    width: 435px;
+    border: 1px solid black;
+    text-align: center;
+    overflow:auto;
+}
+
+.right-side__canvas canvas{
+
+}
