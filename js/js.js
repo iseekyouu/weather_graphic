@@ -5,7 +5,10 @@ let graphic = {
         'date-start': document.getElementById('date-start'),
         'date-end': document.getElementById('date-end'),
         'temperature-button': document.getElementById('temperature-button'),
-        'precipitation-button': document.getElementById('precipitation-button')
+        'precipitation-button': document.getElementById('precipitation-button'),
+        'clear-button': document.getElementById('clear-button'),
+        'r40': document.getElementById('r40'),
+        'r10': document.getElementById('r10')
     },
 
     /// массивы среднемесячной температуры
@@ -29,6 +32,7 @@ let graphic = {
 
         /// Y шкала
         yArr: [40, 30, 20, 10, 0, -10, -20, -30, -40]
+        //yArr: [10, 7.5, 5, 2.5, 0, -2.5, -5, -7.5, -10]
     },
 
     /// хаб для keyup'ов
@@ -37,7 +41,7 @@ let graphic = {
     /// тип данных по умолчанию
     defaultDataType: 'temperature',
 
-    debug: 1,
+    debug: 0,
 
     /*
     * первоначальная инициализация
@@ -52,6 +56,10 @@ let graphic = {
         els['year-to'].addEventListener('keyup', this.fastSelectYear.bind(this, els['year-to']));
         els['temperature-button'].addEventListener('click', this.getData.bind(this, 'temperature', els['temperature-button']));
         els['precipitation-button'].addEventListener('click', this.getData.bind(this, 'precipitation', els['precipitation-button']));
+        els['clear-button'].addEventListener('click', this.clearYearInputs.bind(this));
+        els['r40'].addEventListener('change', this.degreeChange.bind(this, els['r40']));
+        els['r10'].addEventListener('change', this.degreeChange.bind(this, els['r10']));
+
     },
     
     /**
@@ -97,6 +105,7 @@ let graphic = {
      * можно обойтись и без workera, но с ним чуть-чуть быстре
      * затем инициализируется заполнение периодов
      * @params dataType {String} название типа данных temperature\precipitation
+     * @params element {DOMButton} кнопка выбора типа данных, для проставления класса
      *  */
     getData: function (dataType, element) {
         this.clearActiveCss();
@@ -139,7 +148,6 @@ let graphic = {
     /**
      * Функция записи массива для селектов, с среднегодовыми значениями
      * @params data {Object} {name: , arr:}
-     * @returns this
      * */
     setAvgArray: function (data) {
         this[this.currentStateArrayName] = data.arr;
@@ -172,6 +180,7 @@ let graphic = {
     /**
     * заполнение переменных canvas.d1 и canvas.d2 с выбранными индексами для графика
     * @params select {DOM select}
+    * @params index {Integer} индекс выбранного элемента
     * */
     setGraphicIndexes: function(select, index){
         if (!index){
@@ -189,6 +198,9 @@ let graphic = {
     clearYearInputs: function(){
         this.elements['year-from'].value = '';
         this.elements['year-to'].value = '';
+        this.periodFilter(this.elements['year-from']);
+        this.periodFilter(this.elements['year-to']);
+
     },
 
     /**
@@ -266,7 +278,7 @@ let graphic = {
          */
         let yZero = canvas.height / 2;
         let yStep = canvas.height / (this.canvas.yArr.length + 1);
-        let oneDegree = yStep / 10;
+        let oneDegree = yStep / (this.canvas.yArr[0] - this.canvas.yArr[1]);
 
         let x,y;
 
@@ -305,11 +317,11 @@ let graphic = {
     },
 
     /**
-     * обработчик быстрого переключения года
+     * обработчик быстрого переключения года, инициатива
      */
     fastSelectYear: function(input){
         let self = this;
-        self.keyhub.push(1);
+        self.keyhub.push();
 
         setTimeout(function(){
             if (!self.currentState) return false;
@@ -320,30 +332,55 @@ let graphic = {
                 return;
             }
 
-            /**
-             * фильтруем массив в объекте данных по введенной информации
-                создаем период по отфильтрованному массиву
-                  если фильтр ничего не отфильтровал(введена плохая информация)
-                  то ставим активным первый элемент 
-             */             
-            let select = input.id == 'year-from' ?
-                self.elements['date-start'] : self.elements['date-end'];
-            let val = input.value;
-            let z = self[self.currentStateArrayName].filter(function(item){
-                return item.t.indexOf(val) >-1;
-            });
-
-            if (!z.length) z.push(self[self.currentStateArrayName][0]);
-
-            self.clearPeriod(select.id);
-            self.createOptions(select, z);
-            self.periodChangeHandle(select);
-            self.keyhub.length = 0;
+            self.periodFilter(input);
         }, 500);
-
-
     }
+    ,
 
+    /**
+     * фильтрация массива в объекте данных по введенной информации
+     * создаем период по отфильтрованному массиву
+     * если фильтр ничего не отфильтровал(введена плохая информация)
+     * то ставим активным первый элемент
+     * @params input {DOMInput} Input по которому происходит фильтрация
+     */
+    periodFilter: function(input){
+        let select = input.id == 'year-from' ?
+            this.elements['date-start'] : this.elements['date-end'];
+        let val = input.value;
+        let z = this[this.currentStateArrayName].filter(function(item){
+            return item.t.indexOf(val) >-1;
+        });
+
+        if (!z.length) z.push(this[this.currentStateArrayName][0]);
+
+        this.clearPeriod(select.id);
+        this.createOptions(select, z);
+        this.periodChangeHandle(select);
+        this.keyhub.length = 0;
+    },
+
+    /**
+     * изменение У шкалы графика, инициатива
+     * шкала типа 4 диапазона выше нуля и 4 ниже нуля
+     * @params radio {DOMRadio} радио с значнием максимального градуса по плюсу
+     * */
+    degreeChange: function(radio){
+        let value = +radio.value;
+
+        if (!value) return false;
+
+        let step = value / 4;
+        let yArr = [value];
+
+        for (let i = 1; i < 9; i++){
+            value = value - step;
+            yArr.push(value);
+        }
+
+        this.canvas.yArr = yArr;
+        this.draw();
+    }
 };
 
 var worker = new Worker('js/worker.js?'+Math.random());
@@ -401,11 +438,11 @@ window.onload = function(){
 };
 
 
-//********
-
+/**
 function clearObjectStore (){
     Window.db.clearObjectStore('temperature');
     Window.db.clearObjectStore('precipitation');
 
 }
+*/
 

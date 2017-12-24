@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="css/style.css?12" />
-    <script type="application/javascript" src = 'js/db.js?1'></script>
+    <link rel="stylesheet" href="css/style.css?1" />
+    <script type="application/javascript" src = 'js/db.js?2'></script>
 </head>
 <body>
     <div class = 'container'>
@@ -16,9 +16,15 @@
                 <button type = 'button' id = 'precipitation-button'>Precipitation</button>
             </div>
 
-            <div class = 'left-side__precipitation-button'>
-                <button type = 'button' id = 'clear-button' onclick = 'clearObjectStore()'>Clear</button>
+            <div class = 'left-side__clear-button'>
+                <button type = 'button' id = 'clear-store-button' onclick = 'clearObjectStore()'>Clear Object Store</button>
+            </div>
 
+            <div class = 'left-side__precipitation-button'>
+                <input type = 'radio' name = 'degree' checked = 'true' id = 'r40' value = '40'>-40...+40
+            </div>
+            <div class = 'left-side__precipitation-button'>
+                <input type = 'radio' name = 'degree' id = 'r10' value = '10'>-10...+10
             </div>
         </div>
         <div class = 'right-side'>
@@ -30,7 +36,9 @@
                 <div class = 'right-side__year-to'>
                     <input   type = 'number' id = 'year-to' >
                 </div>
-
+                <div class = 'right-side__clear'>
+                    <button type='button' id = 'clear-button'>Clear</button>
+                </div>
                 <div>
                     <div class = 'right-side__date-start'>
                         <select id = 'date-start'></select>
@@ -50,7 +58,7 @@
 </body>
 
 
-<script type="application/javascript" src = 'js/js.js?14'></script>
+<script type="application/javascript" src = 'js/js.js?11'></script>
 
 
 

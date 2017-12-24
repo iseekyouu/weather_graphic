@@ -31,6 +31,13 @@ body {
     padding-bottom: 5px;
 }
 
+.left-side__clear-button{
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: none;
+}
+
 .left-side__precipitation-button button{
     width: 90%;
 }
@@ -48,7 +55,7 @@ body {
 
 .right-side__period{
     margin: auto;
-    text-align: center;
+    /* text-align: center; */
     width: 100%;
 }
 
@@ -69,17 +76,32 @@ body {
 }
 
 .right-side__year-from{
+    margin: 0;
+    padding: 0;
     display: inline-block;
-    width: 49%;
+    width: 220px;
 }
 .right-side__year-from input{
-    width: 80%;
+    width: 180px;
 }
 
 .right-side__year-to{
+    /* margin: 0; */
+    /* padding: 0; */
     display: inline-block;
-    width: 49%;
+    width: 160px;
+    margin-left: -5px;
 }
+
+.right-side__clear {
+    width: 52px;
+    display: inline-block;
+}
+
+.right-side__clear button {
+    width: 100%;
+}
+
 .right-side__year-to input{
     width: 100%;
 }

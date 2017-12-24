@@ -13,7 +13,7 @@
         clearObjectStore: clearobjectStore
     };
     
-    var debug = 1;
+    var debug = 0;
     var cleardb = 0;
     
     
