@@ -103,20 +103,24 @@
 
     request.onupgradeneeded = function (event) {
         db = request.result;
-        db.deleteObjectStore('temperature');
-        db.deleteObjectStore('precipitation');
 
-        if (!db.objectStoreNames.contains('temperature')) {
-            var objectStoreT = db.createObjectStore("temperature", {keyPath: "id", autoIncrement: true});
-            objectStoreT.createIndex("id", "id", {unique: true});
-            objectStoreT.createIndex("t", "t", {unique: true});
+        if (db.objectStoreNames.contains('temperature')){
+            db.deleteObjectStore('temperature');
         }
-        
-        if (!db.objectStoreNames.contains('precipitation')) {
-            var objectStoreP = db.createObjectStore("precipitation", {keyPath: "id", autoIncrement: true});
-            objectStoreP.createIndex("id", "id", {unique: true});
-            objectStoreP.createIndex("t", "t", {unique: true});
+
+        var objectStoreT = db.createObjectStore("temperature", {keyPath: "id", autoIncrement: true});
+        objectStoreT.createIndex("id", "id", {unique: true});
+        objectStoreT.createIndex("t", "t", {unique: true});
+
+
+        if (db.objectStoreNames.contains('precipitation')){
+            db.deleteObjectStore('precipitation');
         }
+
+        var objectStoreP = db.createObjectStore("precipitation", {keyPath: "id", autoIncrement: true});
+        objectStoreP.createIndex("id", "id", {unique: true});
+        objectStoreP.createIndex("t", "t", {unique: true});
+
     };
 
 

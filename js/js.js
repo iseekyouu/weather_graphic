@@ -437,12 +437,10 @@ window.onload = function(){
     graphic.init();
 };
 
-
-/**
 function clearObjectStore (){
     Window.db.clearObjectStore('temperature');
     Window.db.clearObjectStore('precipitation');
 
 }
-*/
+
 
